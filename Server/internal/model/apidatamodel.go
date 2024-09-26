@@ -17,3 +17,7 @@ type OTPVerify struct {
 	Email string `json:"email"`
 	OTP string `json:"otp"`
 }
+type Login struct {
+	Email string `json:"email"`
+	Password string `json:"password"`
+}
