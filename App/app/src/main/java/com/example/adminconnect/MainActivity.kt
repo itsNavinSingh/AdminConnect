@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AdminConnectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginScreen(
+                    DashboardScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
