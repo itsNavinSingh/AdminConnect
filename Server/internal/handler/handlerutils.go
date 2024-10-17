@@ -37,3 +37,17 @@ func CreateJWTToken(username string, jwtkey []byte) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(jwtkey)
 }
+
+func ValidateJWTToken(tokenStr string, jwtKey []byte) (string, error) {
+	claims := Claims{}
+	token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token)(interface{}, error){
+		return jwtKey, nil
+	})
+	if err != nil {
+		return "", err
+	}
+	if !token.Valid {
+		return "", fmt.Errorf("invalid token")
+	}
+	return claims.Username, nil
+}
