@@ -51,6 +51,14 @@ android {
 
 dependencies {
 
+    // for navigation
+//    implementation("androidx.navigation:navigation-compose:2.7.2")
+    implementation(libs.androidx.navigation.compose)
+
+//    for splash screen
+//    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation(libs.androidx.core.splashscreen)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

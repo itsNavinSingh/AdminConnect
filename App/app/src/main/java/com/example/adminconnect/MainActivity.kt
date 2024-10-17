@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.adminconnect.ui.theme.AdminConnectTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AdminConnectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    DashboardScreen(
+                    AdminConnect(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -32,6 +35,33 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AdminConnect(modifier: Modifier = Modifier) {
 
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = "splash",   // if not using splash startDestination is "login"
+        modifier = Modifier.fillMaxSize()
+    ) {
+        composable("splash") {
+            SplashScreen(onTimeout = { navController.navigate("login") })
+        }
+
+        composable("login") {
+            LoginScreen(
+                onNavigateToDashboard = { navController.navigate("dashboard") },
+                onNavigateToRegister = { navController.navigate("register") }
+            )
+        }
+        composable("register") {
+            RegisterScreen(onNavigateToOTP = {navController.navigate("otp")})
+        }
+        composable("otp") {
+            OTPscreen{ navController.navigate("dashboard")}
+        }
+        composable("dashboard") {
+            DashboardScreen()
+        }
+    }
 }
 
 @Preview(showBackground = true)

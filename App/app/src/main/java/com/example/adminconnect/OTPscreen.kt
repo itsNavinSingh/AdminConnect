@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun OTPscreen(modifier: Modifier = Modifier) {
+fun OTPscreen(modifier: Modifier = Modifier, onNavigateToDashboard:() -> Unit) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -70,7 +70,7 @@ fun OTPscreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = {},
+            onClick = { onNavigateToDashboard() },
             colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
         ) {
             Text("Next")
@@ -81,5 +81,5 @@ fun OTPscreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun OTPscreenPreview() {
-    OTPscreen()
+
 }

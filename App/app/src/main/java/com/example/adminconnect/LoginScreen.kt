@@ -2,6 +2,7 @@ package com.example.adminconnect
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(modifier: Modifier = Modifier, onNavigateToRegister:() -> Unit, onNavigateToDashboard: () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -56,7 +57,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = {},
+            onClick = { onNavigateToDashboard() },
             colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
         ) {
             Text("Login")
@@ -66,7 +67,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 
         Row {
             Text("Don't have an account? ")
-            Text("Sign up", color = Color.Blue)
+            Text("Sign up", color = Color.Blue, modifier = Modifier.clickable { onNavigateToRegister() })
         }
     }
 }
@@ -74,5 +75,5 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+
 }

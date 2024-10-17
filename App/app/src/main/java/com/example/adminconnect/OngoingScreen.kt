@@ -24,25 +24,30 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun OngoingTab() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 50.dp)) {
-        Text("Ongoing", fontWeight = FontWeight.Bold, fontSize = 30.sp)
+
+    Column(modifier = Modifier.fillMaxSize()) {
+
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 50.dp)) {
+            Text("Ongoing", fontWeight = FontWeight.Bold, fontSize = 30.sp)
+        }
+
+        val ongoingQueries = listOf(
+            Queries(275, "12/3/2024", "Received", colorResource(R.color.green)),
+            Queries(157, "11/4/2024", "Received", colorResource(R.color.green)),
+            Queries(160, "21/3/2024", "Ongoing", Color.Gray),
+            Queries(364, "10/2/2024", "Received", colorResource(R.color.green)),
+            Queries(732, "09/3/2024", "Ongoing", Color.Gray),
+            Queries(178, "08/1/2024", "Ongoing", Color.Gray),
+            Queries(679, "12/3/2024", "Received", colorResource(R.color.green)),
+            Queries(243, "23/2/2024", "Ongoing", Color.Gray),
+            Queries(689, "31/2/2024", "Ongoing", Color.Gray)
+        )
+
+        List_of_queries(data = ongoingQueries)
     }
 
-    val ongoingQueries = listOf(
-        Queries(275, "12/3/2024", "Received", colorResource(R.color.green)),
-        Queries(157, "11/4/2024", "Received", colorResource(R.color.green)),
-        Queries(160, "21/3/2024", "Ongoing", Color.Gray),
-        Queries(364, "10/2/2024", "Received", colorResource(R.color.green)),
-        Queries(732, "09/3/2024", "Ongoing", Color.Gray),
-        Queries(178, "08/1/2024", "Ongoing", Color.Gray),
-        Queries(679, "12/3/2024", "Received", colorResource(R.color.green)),
-        Queries(243, "23/2/2024", "Ongoing", Color.Gray),
-        Queries(689, "31/2/2024", "Ongoing", Color.Gray)
-    )
-
-    List_of_queries(data = ongoingQueries)
 }
 
 data class Queries(val registrationId : Int, val date : String, val status : String, val clr : Color)

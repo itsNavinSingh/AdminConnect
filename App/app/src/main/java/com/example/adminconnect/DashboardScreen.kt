@@ -40,37 +40,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun DashboardScreen(modifier: Modifier = Modifier) {
+
+    val navController = rememberNavController()
+
     Scaffold(
         bottomBar = {
-            BottomAppBar(
-                content = {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-
-                        BottomAppBarIcon(
-                            icon = Icons.Filled.Send,
-                            onClick = { /* Handle click */ },
-                            label = "Ongoing"
-                        )
-                        BottomAppBarIcon(
-                            icon = Icons.Filled.Refresh,
-                            onClick = { /* Handle click */ },
-                            label = "History"
-                        )
-                        BottomAppBarIcon(
-                            icon = Icons.Filled.Add,
-                            onClick = { /* Handle click */ },
-                            label = "Create"
-                        )
-                    }
-                }
-            )
+            DashboardBottomBar(navController = navController)
         }
     ) {  innerPadding ->
         Column (
@@ -80,9 +62,18 @@ fun DashboardScreen(modifier: Modifier = Modifier) {
         ) {
             Profile_info()
 
+
+            NavHost(
+                navController = navController,
+                startDestination = "ongoing",
+                modifier = Modifier.fillMaxSize()
+            ) {
+                composable("ongoing") { OngoingTab() }
+                composable("history") { HistoryTab() }
+                composable("create") { CreateTab() }
+            }
 //            OngoingTab()
-//            HistoryTab()
-            CreateTab()
+
         }
     }
 }
@@ -108,6 +99,37 @@ fun BottomAppBarIcon(
     }
 }
 
+
+@Composable
+fun DashboardBottomBar(navController : NavHostController) {
+    BottomAppBar(
+        content = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                BottomAppBarIcon(
+                    icon = Icons.Filled.Send,
+                    onClick = { navController.navigate("ongoing") },
+                    label = "Ongoing"
+                )
+                BottomAppBarIcon(
+                    icon = Icons.Filled.Refresh,
+                    onClick = { navController.navigate("history") },
+                    label = "History"
+                )
+                BottomAppBarIcon(
+                    icon = Icons.Filled.Add,
+                    onClick = { navController.navigate("create") },
+                    label = "Create"
+                )
+            }
+        }
+    )
+}
+
+
 @Composable
 fun Profile_info() {
 
@@ -132,7 +154,6 @@ fun Profile_info() {
         }
     }
 }
-
 
 
 @Preview(showBackground = true)

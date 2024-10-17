@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RegisterScreen(modifier: Modifier = Modifier) {
+fun RegisterScreen(modifier: Modifier = Modifier, onNavigateToOTP:() -> Unit) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -78,7 +78,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
-            onClick = {},
+            onClick = { onNavigateToOTP() },
             colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
         ) {
             Text("Next")
@@ -91,5 +91,4 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen()
 }

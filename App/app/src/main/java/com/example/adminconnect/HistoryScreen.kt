@@ -24,20 +24,23 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun HistoryTab() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 50.dp)) {
-        Text("History", fontWeight = FontWeight.Bold, fontSize = 30.sp)
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 50.dp)) {
+            Text("History", fontWeight = FontWeight.Bold, fontSize = 30.sp)
+        }
+
+        val completedQueries = listOf(
+            CQueries(275, "12/3/2024", "Completed", colorResource(R.color.green)),
+            CQueries(157, "11/4/2024", "Rejected", Color.Red),
+            CQueries(160, "21/3/2024", "Rejected", Color.Red)
+
+        )
+
+        Completed_queries(data = completedQueries)
     }
-
-    val completedQueries = listOf(
-        CQueries(275, "12/3/2024", "Completed", colorResource(R.color.green)),
-        CQueries(157, "11/4/2024", "Rejected", Color.Red),
-        CQueries(160, "21/3/2024", "Rejected", Color.Red)
-
-    )
-
-    Completed_queries(data = completedQueries)
 }
 
 data class CQueries(val registrationId : Int, val date : String, val status : String, val clr : Color)
