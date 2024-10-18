@@ -45,25 +45,13 @@ func (m *Repository) ApiRegister(w http.ResponseWriter, r *http.Request) {
 		w.Write(out)
 		return
 	}
-	otp := GenerateOTP()
-	_, err = m.App.DataBase.Exec(
-		"INSERT INTO user_otp (email, otp, generated_at) VALUES ($1, $2, NOW()) ON CONFLICT (email) DO UPDATE SET otp = $2 , generated_at = NOW()",
-		regReq.Email, otp)
+	err = m.SendOTP(regReq.Email)
 	if err != nil {
-		status.Message = "Internal Error"
+		status.Message = err.Error()
 		out, _ := json.Marshal(status)
 		w.Write(out)
 		return
 	}
-
-	err = SendOTP(m.App.Semail, m.App.Spassword, regReq.Email, otp)
-	if err != nil {
-		status.Message = "Could Not Send OTP"
-		out, _ := json.Marshal(status)
-		w.Write(out)
-		return
-	}
-
 	status.Success = true
 	status.Message = "OTP is sent to your email"
 	out, _ := json.Marshal(status)

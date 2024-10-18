@@ -21,3 +21,11 @@ type Login struct {
 	Email string `json:"email"`
 	Password string `json:"password"`
 }
+type Query struct {
+	RegistrationId int `json:"registrationId"`
+	Date string `json:"date"`
+	Status string `json:"status"`
+}
+type Queries struct {
+	Data []Query `json:"data"`
+}
