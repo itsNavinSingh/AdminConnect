@@ -10,6 +10,7 @@ import (
 )
 
 func (m *Repository) ApiLogin(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var regReq model.Login
 	var status model.ApiStatus
 	status.Success = false
