@@ -1,5 +1,6 @@
 package com.example.adminconnect
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -68,9 +69,10 @@ fun List_of_queries(data : List<Queries>) {
                 shape = RoundedCornerShape(7.dp),
 
                 ) {
-                Row(modifier = Modifier.fillMaxSize(),
+                Row(modifier = Modifier.fillMaxSize().clickable {  },
                     horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+
                 ) {
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {

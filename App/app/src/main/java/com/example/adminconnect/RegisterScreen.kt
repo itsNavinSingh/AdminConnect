@@ -7,13 +7,19 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,63 +38,61 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun RegisterScreen(modifier: Modifier = Modifier, onNavigateToOTP:() -> Unit) {
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+
+    Surface(
+        modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        color = Color.White
     ) {
-
-        val name = remember { mutableStateOf("")}
-        val emailId = remember { mutableStateOf("") }
-        val course = remember { mutableStateOf("")}
-        val year = remember { mutableStateOf("")}
-        val rollNo = remember { mutableStateOf("")}
-
-
-        Text("Register", fontWeight = FontWeight.Bold, fontSize = 34.sp,fontStyle = FontStyle.Italic)
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Column() {
-            Text("Name",modifier = Modifier.align(Alignment.Start).padding(5.dp))
-            OutlinedTextField(name.value, onValueChange = {name.value = it})
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Column() {
-            Text("College Email ID",modifier = Modifier.align(Alignment.Start).padding(5.dp))
-            OutlinedTextField(emailId.value, onValueChange = {emailId.value = it})
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Column() {
-            Text("Course",modifier = Modifier.align(Alignment.Start).padding(5.dp))
-            OutlinedTextField(course.value, onValueChange = {course.value = it})
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Column() {
-            Text("Year",modifier = Modifier.align(Alignment.Start).padding(5.dp))
-            OutlinedTextField(year.value, onValueChange = {year.value = it})
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Column() {
-            Text("College Roll no.",modifier = Modifier.align(Alignment.Start).padding(5.dp))
-            OutlinedTextField(rollNo.value, onValueChange = {rollNo.value = it})
-        }
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = { onNavigateToOTP() },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(top = 120.dp, bottom = 120.dp, start = 30.dp, end = 30.dp),
+            shape = RoundedCornerShape(corner = CornerSize(15.dp)),
+            colors = CardDefaults.cardColors(containerColor = Color.White), // For background color
+            border = BorderStroke(2.dp,Color.Gray),
         ) {
-            Text("Next")
+            Column(modifier = Modifier.fillMaxSize().padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                val name = remember { mutableStateOf("")}
+                val phone = remember { mutableStateOf("") }
+                val course = remember { mutableStateOf("")}
+                val year = remember { mutableStateOf("")}
+                val rollNo = remember { mutableStateOf("")}
+
+                Text("Register", fontWeight = FontWeight.Bold, fontSize = 34.sp,fontStyle = FontStyle.Italic)
+                Spacer(modifier = Modifier.height(40.dp))
+
+                OutlinedTextField(name.value, onValueChange = {name.value = it}, label = { Text("Name") })
+                Spacer(modifier = Modifier.height(10.dp))
+
+                OutlinedTextField(phone.value, onValueChange = {phone.value = it}, label = { Text("Phone no.") })
+                Spacer(modifier = Modifier.height(10.dp))
+
+                OutlinedTextField(course.value, onValueChange = {course.value = it}, label = { Text("Course") })
+                Spacer(modifier = Modifier.height(10.dp))
+
+                OutlinedTextField(year.value, onValueChange = {year.value = it}, label = { Text("Year") })
+                Spacer(modifier = Modifier.height(10.dp))
+
+                OutlinedTextField(rollNo.value, onValueChange = {rollNo.value = it}, label = { Text("College Roll no.") })
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Button(
+                    onClick = { onNavigateToOTP() },
+//                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+                ) {
+                    Text("Next")
+                }
+            }
         }
-
-
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview() {
+    RegisterScreen(modifier = Modifier) {}
 }

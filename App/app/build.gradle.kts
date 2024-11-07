@@ -59,6 +59,10 @@ dependencies {
 //    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation(libs.androidx.core.splashscreen)
 
+//    for swiping transition between history, create, ongoing screens
+//    implementation("com.google.accompanist:accompanist-pager:0.28.0")
+    implementation(libs.accompanist.pager)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
