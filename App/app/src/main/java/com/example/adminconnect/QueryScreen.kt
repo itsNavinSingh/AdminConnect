@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ViewQuery() {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().padding(20.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
