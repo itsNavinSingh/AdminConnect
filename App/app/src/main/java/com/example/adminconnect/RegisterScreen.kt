@@ -2,6 +2,7 @@ package com.example.adminconnect
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,9 +21,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(modifier: Modifier = Modifier, onNavigateToOTP:() -> Unit) {
 
@@ -58,8 +65,14 @@ fun RegisterScreen(modifier: Modifier = Modifier, onNavigateToOTP:() -> Unit) {
             ) {
                 val name = remember { mutableStateOf("")}
                 val phone = remember { mutableStateOf("") }
-                val course = remember { mutableStateOf("")}
-                val year = remember { mutableStateOf("")}
+//                val course = remember { mutableStateOf("")}
+//                val year = remember { mutableStateOf("")}
+                val courseOptions = listOf("BSc (H) Computer Science", "BSc (H) Mathematics", "BSc (H) Statistics","BSc (H) Geology","BSc (H) Microbiology","BMS","BA Program (Eco + CS)","BA Program (Eco + Maths)","BA Program (His + Pol Sci)","BA (H) English","BA (H) Hindi","BA (H) History","BA (H) Political Science","B.Com (H)","B.Com (Program)","BJMC")
+                val yearOptions = listOf("2018", "2019", "2020","2021","2022", "2023", "2024","2025")
+                val selectedCourse = remember { mutableStateOf("") }
+                val expandedCourse = remember { mutableStateOf(false) }
+                val selectedYear = remember { mutableStateOf("") }
+                val expandedYear = remember { mutableStateOf(false) }
                 val rollNo = remember { mutableStateOf("")}
 
                 Text("Register", fontWeight = FontWeight.Bold, fontSize = 34.sp,fontStyle = FontStyle.Italic)
@@ -71,11 +84,79 @@ fun RegisterScreen(modifier: Modifier = Modifier, onNavigateToOTP:() -> Unit) {
                 OutlinedTextField(phone.value, onValueChange = {phone.value = it}, label = { Text("Phone no.") })
                 Spacer(modifier = Modifier.height(10.dp))
 
-                OutlinedTextField(course.value, onValueChange = {course.value = it}, label = { Text("Course") })
+//                OutlinedTextField(course.value, onValueChange = {course.value = it}, label = { Text("Course") })
+//                Spacer(modifier = Modifier.height(10.dp))
+//
+//                OutlinedTextField(year.value, onValueChange = {year.value = it}, label = { Text("Year") })
+//                Spacer(modifier = Modifier.height(10.dp))
+
+                // Dropdown for Course
+                ExposedDropdownMenuBox(
+                    expanded = expandedCourse.value,
+                    onExpandedChange = { expandedCourse.value = !expandedCourse.value }
+                ) {
+                    OutlinedTextField(
+                        value = selectedCourse.value,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text("Course") },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCourse.value)
+                        },
+                        modifier = Modifier
+                            .menuAnchor()
+                            .clickable { expandedCourse.value = !expandedCourse.value }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expandedCourse.value,
+                        onDismissRequest = { expandedCourse.value = false }
+                    ) {
+                        courseOptions.forEach { course ->
+                            DropdownMenuItem(
+                                text = { Text(course) },
+                                onClick = {
+                                    selectedCourse.value = course
+                                    expandedCourse.value = false
+                                }
+                            )
+                        }
+                    }
+                }
                 Spacer(modifier = Modifier.height(10.dp))
 
-                OutlinedTextField(year.value, onValueChange = {year.value = it}, label = { Text("Year") })
-                Spacer(modifier = Modifier.height(10.dp))
+                // Dropdown for Year
+                ExposedDropdownMenuBox(
+                    expanded = expandedYear.value,
+                    onExpandedChange = { expandedYear.value = !expandedYear.value }
+                ) {
+                    OutlinedTextField(
+                        value = selectedYear.value,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text("Year") },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedYear.value)
+                        },
+                        modifier = Modifier
+                            .menuAnchor()
+                            .clickable { expandedYear.value = !expandedYear.value }
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expandedYear.value,
+                        onDismissRequest = { expandedYear.value = false }
+                    ) {
+                        yearOptions.forEach { year ->
+                            DropdownMenuItem(
+                                text = { Text(year) },
+                                onClick = {
+                                    selectedYear.value = year
+                                    expandedYear.value = false
+                                }
+                            )
+                        }
+                    }
+                }
+                                Spacer(modifier = Modifier.height(10.dp))
 
                 OutlinedTextField(rollNo.value, onValueChange = {rollNo.value = it}, label = { Text("College Roll no.") })
                 Spacer(modifier = Modifier.height(20.dp))
