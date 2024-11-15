@@ -3,6 +3,6 @@
 
     <style name="Theme.AdminConnect" parent="android:Theme.Material.Light.NoActionBar" >
     <!-- Set splash screen background -->
-    <item name="android:windowBackground">@drawable/splash_screen</item>
+<!--    <item name="android:windowBackground">@drawable/splash_screen</item>-->
 </style>
 </resources>

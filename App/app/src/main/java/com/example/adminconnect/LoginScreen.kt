@@ -37,7 +37,6 @@ fun LoginScreen(modifier: Modifier = Modifier, onNavigateToRegister:() -> Unit, 
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         val emailId = remember { mutableStateOf("") }
         val password = remember { mutableStateOf("") }
 
@@ -58,7 +57,7 @@ fun LoginScreen(modifier: Modifier = Modifier, onNavigateToRegister:() -> Unit, 
 
         Button(
             onClick = { onNavigateToDashboard() },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+//            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
         ) {
             Text("Login")
         }
@@ -75,5 +74,6 @@ fun LoginScreen(modifier: Modifier = Modifier, onNavigateToRegister:() -> Unit, 
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
+    LoginScreen(modifier = Modifier, onNavigateToRegister = {}, onNavigateToDashboard = {})
 
 }
