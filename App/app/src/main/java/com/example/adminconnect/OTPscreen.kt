@@ -1,5 +1,6 @@
 package com.example.adminconnect
 
+import OtpViewModel
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +24,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -34,11 +37,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.adminconnect.login_register.OtpRequest
 
 @Composable
-fun OTPscreen(modifier: Modifier = Modifier, onNavigateToDashboard:() -> Unit) {
+fun OTPscreen(
+    modifier: Modifier = Modifier,
+    onNavigateToDashboard:() -> Unit,
+    otpViewModel: OtpViewModel = viewModel()
+) {
 
-    val isclicked = remember { mutableStateOf(false) }
+    val otpVerificationState by otpViewModel.otpVerificationState.collectAsState()
+
+    // Check verification state for navigation
+    if (otpVerificationState?.success == true) {
+        onNavigateToDashboard()
+    }
+
+    val isClicked = remember { mutableStateOf(false) }
+    val emailId = remember { mutableStateOf("") }
+    val otp = remember { mutableStateOf("") }
+    // States for user inputs
+    val cPassword = remember { mutableStateOf("") }
+    val isOtpRequested = remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier.fillMaxWidth().fillMaxHeight(),
@@ -58,38 +79,70 @@ fun OTPscreen(modifier: Modifier = Modifier, onNavigateToDashboard:() -> Unit) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val cPassword = remember { mutableStateOf("") }
-                val emailId = remember { mutableStateOf("") }
-                val otp = remember { mutableStateOf("") }
 
                 Text("Register", fontWeight = FontWeight.Bold, fontSize = 34.sp,fontStyle = FontStyle.Italic)
                 Spacer(modifier = Modifier.height(40.dp))
 
+                //email input
                 OutlinedTextField(emailId.value, onValueChange = {emailId.value = it}, label = { Text("College Email Id") })
                 Spacer(modifier = Modifier.height(10.dp))
 
+                //password input
                 OutlinedTextField(cPassword.value, onValueChange = {cPassword.value = it}, label = { Text("Create Password") })
                 Spacer(modifier = Modifier.height(20.dp))
 
+//                Button(
+//                    onClick = { isClicked.value = !isClicked.value },
+////                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+//                ) {
+//                    Text("Verify")
+//                }
+//
+//                if (isClicked.value) {
+//                    Column() {
+//                        Text("Enter OTP",modifier = Modifier.align(Alignment.Start).padding(5.dp))
+//                        OutlinedTextField(otp.value, onValueChange = {otp.value = it})
+//                    }
+//                    Spacer(modifier = Modifier.height(20.dp))
+//
+//                    Button(
+//                        onClick = { onNavigateToDashboard() },
+////                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+//                    ) {
+//                        Text("Next")
+//                    }
+//                }
+
+                // Request OTP Button
                 Button(
-                    onClick = { isclicked.value = !isclicked.value },
-//                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+                    onClick = {
+                        isOtpRequested.value = true
+                        otpViewModel.requestOtp(emailId.value) // Request OTP via ViewModel
+                    }
                 ) {
-                    Text("Verify")
+                    Text("Request OTP")
                 }
 
-                if (isclicked.value) {
-                    Column() {
-                        Text("Enter OTP",modifier = Modifier.align(Alignment.Start).padding(5.dp))
-                        OutlinedTextField(otp.value, onValueChange = {otp.value = it})
+                if (isOtpRequested.value) {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Column {
+                        Text("Enter OTP", modifier = Modifier.align(Alignment.Start).padding(5.dp))
+                        OutlinedTextField(
+                            value = otp.value,
+                            onValueChange = { otp.value = it },
+                            label = { Text("OTP") }
+                        )
                     }
+
                     Spacer(modifier = Modifier.height(20.dp))
 
+                    // Verify OTP Button
                     Button(
-                        onClick = { onNavigateToDashboard() },
-//                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+                        onClick = {
+                            otpViewModel.verifyOtp(emailId.value, otp.value) // Verify OTP
+                        }
                     ) {
-                        Text("Next")
+                        Text("Verify OTP")
                     }
                 }
             }
@@ -100,5 +153,5 @@ fun OTPscreen(modifier: Modifier = Modifier, onNavigateToDashboard:() -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun OTPscreenPreview() {
-    OTPscreen(modifier = Modifier) {}
+//    OTPscreen(modifier = Modifier) {}
 }

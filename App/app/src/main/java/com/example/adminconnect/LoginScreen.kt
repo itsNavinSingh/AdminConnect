@@ -1,5 +1,6 @@
 package com.example.adminconnect
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,20 +20,32 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.adminconnect.login_register.LoginRequest
+import com.example.adminconnect.login_register.LoginViewModel
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier, onNavigateToRegister:() -> Unit, onNavigateToDashboard: () -> Unit) {
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    onNavigateToRegister:() -> Unit,
+    onNavigateToDashboard: () -> Unit,
+    loginViewModel: LoginViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
+    val loginState by loginViewModel.loginState.collectAsState()
+
     Column(modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -55,11 +68,25 @@ fun LoginScreen(modifier: Modifier = Modifier, onNavigateToRegister:() -> Unit, 
         }
         Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
-            onClick = { onNavigateToDashboard() },
-//            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
-        ) {
+//        Button(
+//            onClick = { onNavigateToDashboard() },
+////            colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+//        ) {
+//            Text("Login")
+//        }
+        Button(onClick = {
+            val request = LoginRequest(email = emailId.value, password = password.value)
+            loginViewModel.login(request)
+        }) {
             Text("Login")
+        }
+
+        loginState?.let {
+            if (it.success) {
+                onNavigateToDashboard()
+            } else {
+                Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
+            }
         }
 
         Text("OR", modifier = Modifier.padding(8.dp))

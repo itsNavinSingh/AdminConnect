@@ -1,5 +1,6 @@
 package com.example.adminconnect
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,21 +31,32 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.adminconnect.login_register.ApiResponse
+import com.example.adminconnect.login_register.RegisterRequest
+import com.example.adminconnect.login_register.RegisterViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(modifier: Modifier = Modifier, onNavigateToOTP:() -> Unit) {
+fun RegisterScreen(
+    modifier: Modifier = Modifier,
+    onNavigateToOTP:(ApiResponse) -> Unit,
+    registerViewModel: RegisterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
+    val registerState by registerViewModel.registerState.collectAsState()
 
     Surface(
         modifier = Modifier.fillMaxWidth().fillMaxHeight(),
@@ -161,11 +173,33 @@ fun RegisterScreen(modifier: Modifier = Modifier, onNavigateToOTP:() -> Unit) {
                 OutlinedTextField(rollNo.value, onValueChange = {rollNo.value = it}, label = { Text("College Roll no.") })
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Button(
-                    onClick = { onNavigateToOTP() },
-//                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
-                ) {
+//                Button(
+//                    onClick = { onNavigateToOTP() },
+////                    colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+//                ) {
+//                    Text("Next")
+//                }
+                Button(onClick = {
+                    val request = RegisterRequest(
+                        name = name.value,
+                        phone = phone.value,
+                        course = selectedCourse.value,
+                        year = selectedYear.value,
+                        rollNo = rollNo.value,
+                        email = "user@example.com", // Add email logic
+                        password = "password123"    // Add password logic
+                    )
+                    registerViewModel.register(request)
+                }) {
                     Text("Next")
+                }
+
+                registerState?.let {
+                    if (it.success) {
+                        onNavigateToOTP(it)
+                    } else {
+                        Toast.makeText(LocalContext.current, it.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
@@ -175,5 +209,5 @@ fun RegisterScreen(modifier: Modifier = Modifier, onNavigateToOTP:() -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview() {
-    RegisterScreen(modifier = Modifier) {}
+//    RegisterScreen(modifier = Modifier) {}
 }
