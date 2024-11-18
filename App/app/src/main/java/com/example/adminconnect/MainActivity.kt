@@ -66,7 +66,16 @@ fun AdminConnect(modifier: Modifier = Modifier) {
             RegisterScreen(onNavigateToOTP = {navController.navigate("otp")})
         }
         composable("otp") {
-            OTPscreen{ navController.navigate("dashboard")}
+//            OTPscreen{ navController.navigate("dashboard")}
+            OTPscreen(
+                onNavigateToDashboard = {
+                    navController.navigate("dashboard") {
+                        // Pop the backstack and clear the "otp" screen from history
+                        popUpTo("otp") { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
         composable("dashboard") {
             DashboardScreen()
